@@ -169,15 +169,12 @@ class Game2048(Widget):
     cube_size = NumericProperty(10)
     cube_padding = NumericProperty(10)
     score = NumericProperty(0)
+    dim = 4 # try 5 for a 5x5 grid!
 
     def __init__(self, **kwargs):
         super(Game2048, self).__init__()
-        self.grid = [
-            [None, None, None, None],
-            [None, None, None, None],
-            [None, None, None, None],
-            [None, None, None, None]]
-
+        self.grid = [[None for x in range(self.dim)] for x in range(self.dim)]
+	
         # bind keyboard
         Window.bind(on_key_down=self.on_key_down)
         Window.on_keyboard = lambda *x: None
@@ -219,8 +216,8 @@ class Game2048(Widget):
         self.rebuild_background()
         # calculate the size of a number
         l = min(self.width, self.height)
-        padding = (l / 4.) / 8.
-        cube_size = (l - (padding * 5)) / 4.
+        padding = (1.0* l / self.dim) / (2 * self.dim)
+        cube_size = 1.0 * (l - (padding * (self.dim+1))) / self.dim
         self.cube_size = cube_size
         self.cube_padding = padding
 
@@ -241,8 +238,8 @@ class Game2048(Widget):
                 yield ix, iy
 
     def iterate_pos(self):
-        for ix in range(4):
-            for iy in range(4):
+        for ix in range(self.dim):
+            for iy in range(self.dim):
                 yield ix, iy
 
     def index_to_pos(self, ix, iy):
@@ -256,7 +253,7 @@ class Game2048(Widget):
         empty = list(self.iterate_empty())
         if not empty:
             return
-        value = 2 if random() < .9 else 4
+        value = choice([2]*9+[4])
         ix, iy = choice(empty)
         self.spawn_number_at(ix, iy, value)
 
@@ -280,14 +277,13 @@ class Game2048(Widget):
         else:
             self.move_topdown(dy > 0)
         return True
-
+	
     def move_leftright(self, right, from_keyboard=False):
-        r = range(3, -1, -1) if right else range(4)
+        r = range(self.dim - 1, -1, -1) if right else range(self.dim)
         grid = self.grid
         moved = False
 
-        for iy in range(4):
-            # get all the cube for the current line
+        for iy in range(self.dim):            # get all the cube for the current line
             cubes = []
             for ix in r:
                 cube = grid[ix][iy]
@@ -315,11 +311,11 @@ class Game2048(Widget):
             Clock.schedule_once(self.spawn_number, .20)
 
     def move_topdown(self, top, from_keyboard=False):
-        r = range(3, -1, -1) if top else range(4)
+        r = range(self.dim - 1, -1, -1) if top else range(self.dim)
         grid = self.grid
         moved = False
 
-        for ix in range(4):
+        for ix in range(self.dim):
             # get all the cube for the current line
             cubes = []
             for iy in r:
@@ -376,15 +372,15 @@ class Game2048(Widget):
 
     def have_available_moves(self):
         grid = self.grid
-        for iy in range(4):
-            for ix in range(3):
+        for iy in range(self.dim):
+            for ix in range(self.dim-1):
                 cube1 = grid[ix][iy]
                 cube2 = grid[ix + 1][iy]
                 if cube1.number == cube2.number:
                     return True
 
-        for ix in range(4):
-            for iy in range(3):
+        for ix in range(self.dim):
+            for iy in range(self.dim-1):
                 cube1 = grid[ix][iy]
                 cube2 = grid[ix][iy + 1]
                 if cube1.number == cube2.number:
@@ -406,11 +402,7 @@ class Game2048(Widget):
         self.score = 0
         for ix, iy, child in self.iterate():
             child.destroy()
-        self.grid = [
-            [None, None, None, None],
-            [None, None, None, None],
-            [None, None, None, None],
-            [None, None, None, None]]
+        self.grid = [[None for x in range(self.dim)] for x in range(self.dim)]
         self.reposition()
         Clock.schedule_once(self.spawn_number, .1)
         Clock.schedule_once(self.spawn_number, .1)
