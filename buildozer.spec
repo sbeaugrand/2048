@@ -1,4 +1,10 @@
 [app]
+android.archs = arm64-v8a, armeabi-v7a
+# https://github.com/android/ndk/wiki/Unsupported-Downloads
+# cd ~/.buildozer/android/platform
+# wget https://dl.google.com/android/repository/android-ndk-r23c-linux.zip
+# unzip android-ndk-r23c-linux.zip
+android.ndk = 23c
 
 # (str) Title of your application
 title = 2048 with Kivy
@@ -7,7 +13,7 @@ title = 2048 with Kivy
 package.name = kivy2048
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = com.mrgazz
+package.domain = com.github.sbeaugrand
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -22,7 +28,7 @@ source.include_exts = py,png,jpg,kv,atlas
 source.exclude_dirs = libs
 
 # (list) List of exclusions using pattern matching
-source.exclude_patterns = README.md,screenshot.png
+source.exclude_patterns = README.md,screenshot.png,gs_android.py
 
 # (str) Application versioning (method 1)
 version.regex = __version__ = '(.*)'
@@ -52,13 +58,13 @@ fullscreen = 0
 #
 
 # (list) Permissions
-android.permissions = INTERNET
+#android.permissions = INTERNET
 
 # (int) Android API to use
-android.api = 14
+#android.api = 14
 
 # (int) Minimum API required (8 = Android 2.2 devices)
-android.minapi = 10
+#android.minapi = 10
 
 # (int) Android SDK version to use
 #android.sdk = 21
@@ -85,11 +91,11 @@ android.minapi = 10
 # their classes. Don't add jars that you do not need, since extra jars can slow
 # down the build process. Allows wildcards matching, for example:
 # OUYA-ODK/libs/*.jar
-android.add_jars = libs/*.jar
+#android.add_jars = libs/*.jar
 
 # (list) List of Java files to add to the android project (can be java or a
 # directory containing the files)
-android.add_src = libs/basegameutils/java/
+#android.add_src = libs/basegameutils/java/
 
 # (str) python-for-android branch to use, if not master, useful to try
 # not yet merged features.
@@ -119,7 +125,7 @@ android.add_src = libs/basegameutils/java/
 
 # (list) Android library project to add (will be added in the
 # project.properties automatically.)
-android.library_references = libs/google-play-services_lib
+#android.library_references = libs/google-play-services_lib
 
 #
 # iOS specific
@@ -136,7 +142,7 @@ android.library_references = libs/google-play-services_lib
 [buildozer]
 
 # (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
-log_level = 1
+log_level = 2
 
 
 # -----------------------------------------------------------------------------
@@ -177,7 +183,7 @@ log_level = 1
 #
 #     buildozer --profile demo android debug
 
-[app:android.meta_data]
-com.google.android.gms.version = @integer/google_play_services_version
-com.google.android.gms.games.APP_ID = @string/app_id
-com.google.android.gms.appstate.APP_ID = @string/app_id
+#[app:android.meta_data]
+#com.google.android.gms.version = @integer/google_play_services_version
+#com.google.android.gms.games.APP_ID = @string/app_id
+#com.google.android.gms.appstate.APP_ID = @string/app_id
