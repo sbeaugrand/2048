@@ -75,6 +75,39 @@ BoxLayout:
             padding: '5dp'
             orientation: 'vertical' if root.height < root.width else 'horizontal'
 
+            BoxLayout:
+                orientation: 'vertical' if root.height > root.width else 'horizontal'
+                spacing: '10dp'
+                size_hint_y: 1 if root.height > root.width else 0.25
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing: '10dp'
+                    size_hint_y: 0.5 if root.height > root.width else 1
+                    TextButton:
+                        text: 'R'
+                        on_press: game.restart()
+                        font_size: min(self.height, self.width) / 2
+                        size_hint_y: 1
+                    TextButton:
+                        text: 'U'
+                        on_press: game.undo()
+                        font_size: min(self.height, self.width) / 2
+                        size_hint_y: 1
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing: '10dp'
+                    size_hint_y: 0.5 if root.height > root.width else 1
+                    TextButton:
+                        text: '4x4'
+                        on_press: app.resize(4) if app.dim != 4 else None
+                        font_size: min(self.height, self.width) / 2
+                        size_hint_y: 1
+                    TextButton:
+                        text: '5x5'
+                        on_press: app.resize(5) if app.dim != 5 else None
+                        font_size: min(self.height, self.width) / 2
+                        size_hint_y: 1
+
             Label:
                 text: '2048'
                 font_size: min(self.height, self.width) / 2.

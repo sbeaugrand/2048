@@ -4,7 +4,8 @@ from kivy.utils import platform
 class Achievement():
     def __init__(self, app):
         self.app = app
-        self.platform = platform
+        #self.platform = platform
+        self.platform = ''
 
         if self.platform == 'android':
             # Support for Google Play
