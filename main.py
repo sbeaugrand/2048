@@ -153,7 +153,7 @@ class Game2048(Widget):
             moved = self.move_leftright(True, from_keyboard=True)
         elif key == 27 and platform == 'android':
             from jnius import autoclass
-            PythonActivity = autoclass('org.renpy.android.PythonActivity')
+            PythonActivity = autoclass('org.kivy.android.PythonActivity')
             PythonActivity.mActivity.moveTaskToBack(True)
             return True
         if not self.check_end() and moved:
@@ -305,7 +305,6 @@ class Game2048(Widget):
             return cubes
         index = 0
         while index < len(cubes) - 1:
-            print "I" + str(index)
             cube1 = cubes[index]
             cube2 = cubes[index + 1]
             if cube1.number == cube2.number:

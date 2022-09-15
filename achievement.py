@@ -4,7 +4,7 @@ from kivy.utils import platform
 class Achievement():
     def __init__(self, app):
         self.app = app
-        self.platform = platform()
+        self.platform = platform
 
         if self.platform == 'android':
             # Support for Google Play
@@ -56,15 +56,14 @@ class Achievement():
                 app.gs_increment(achievement_10x_block_2048)
 
     def set_config(self, config):
-        if platform == 'android':
+        if self.platform == 'android':
             config.setdefaults('play', {'use_google_play': '0'})
 
     def use_google_play(self):
         return self.use_google_play
 
     def setup_ui(self):
-        print "---in setup_ui"
-        if platform == 'android':
+        if self.platform == 'android':
             self.use_google_play = self.config.getint('play',
                                                       'use_google_play')
             if self.use_google_play:
@@ -77,26 +76,26 @@ class Achievement():
             scoring.parent.remove_widget(scoring)
 
     def gs_increment(self, uid):
-        if platform == 'android' and self.use_google_play:
+        if self.platform == 'android' and self.use_google_play:
             gs_android.increment(uid, 1)
 
     def gs_unlock(self, uid):
-        if platform == 'android' and self.use_google_play:
+        if self.platform == 'android' and self.use_google_play:
             gs_android.unlock(uid)
 
     def gs_score(self, score):
-        if platform == 'android' and self.use_google_play:
+        if self.platform == 'android' and self.use_google_play:
             gs_android.leaderboard(leaderboard_highscore, score)
 
     def gs_show_achievements(self):
-        if platform == 'android':
+        if self.platform == 'android':
             if self.use_google_play:
                 gs_android.show_achievements()
             else:
                 self.ask_google_play()
 
     def gs_show_leaderboard(self):
-        if platform == 'android':
+        if self.platform == 'android':
             if self.use_google_play:
                 gs_android.show_leaderboard(leaderboard_highscore)
             else:
@@ -113,9 +112,9 @@ class Achievement():
         gs_android.setup(self)
 
     def on_pause(self):
-        if platform == 'android':
+        if self.platform == 'android':
             gs_android.on_stop()
 
     def on_resume(self):
-        if platform == 'android':
+        if self.platform == 'android':
             gs_android.on_start()
