@@ -28,7 +28,7 @@ source.include_exts = py,png,jpg,kv,atlas
 source.exclude_dirs = libs
 
 # (list) List of exclusions using pattern matching
-source.exclude_patterns = README.md,screenshot.png,gs_android.py
+source.exclude_patterns = README.md,screenshot.png,gs_android.py,Makefile
 
 # (str) Application versioning (method 1)
 version.regex = __version__ = '(.*)'

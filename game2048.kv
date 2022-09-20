@@ -131,12 +131,12 @@ BoxLayout:
                     Label:
                         text: 'SCORE'
                         color: 0xee / 255., 0xe4 / 255., 0xda / 255., 1.
-                        font_size: self.height / 1.5
+                        font_size: min(self.height / 1.5, self.width / 3.5)
                         size_hint_y: .5
                         bold: True
                     Label:
                         text: str(game.score)
-                        font_size: self.height / 1.5
+                        font_size: min(self.height / 1.5, self.width / 3.5)
                         bold: True
 
                 BoxLayout:
