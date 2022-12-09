@@ -1,4 +1,4 @@
-__version__ = '1.3.2'
+__version__ = '1.4.0'
 
 from kivy.app import App
 from kivy.uix.widget import Widget
@@ -247,8 +247,8 @@ class Game2048(Widget):
         return True
 
     def move_leftright(self, right, from_keyboard=False):
-        self.last_num = self.get_num()
-        self.last_score = self.score
+        last_num = self.get_num()
+        last_score = self.score
         r = range(self.dim - 1, -1, -1) if right else range(self.dim)
         grid = self.grid
         moved = False
@@ -275,14 +275,18 @@ class Game2048(Widget):
                 if cube.pos != pos:
                     cube.move_to(pos)
 
+        if moved:
+            self.last_num = last_num
+            self.last_score = last_score
+
         if from_keyboard:
             return moved
         elif not self.check_end() and moved:
             Clock.schedule_once(self.spawn_number, .20)
 
     def move_topdown(self, top, from_keyboard=False):
-        self.last_num = self.get_num()
-        self.last_score = self.score
+        last_num = self.get_num()
+        last_score = self.score
         r = range(self.dim - 1, -1, -1) if top else range(self.dim)
         grid = self.grid
         moved = False
@@ -309,6 +313,10 @@ class Game2048(Widget):
                 pos = self.index_to_pos(ix, iy)
                 if cube.pos != pos:
                     cube.move_to(pos)
+
+        if moved:
+            self.last_num = last_num
+            self.last_score = last_score
 
         if from_keyboard:
             return moved
@@ -365,21 +373,19 @@ class Game2048(Widget):
         self.add_widget(end)
         text = 'Game\nover!'
         for ix, iy, cube in self.iterate():
-            if cube.number == 2048:
+            if cube.number >= 2048:
                 text = 'WIN !'
+                break
         self.ids.end_label.text = text
         Animation(opacity=1., d=.5).start(end)
         achievement.gs_score(self.score)
+        self.last_num = None
 
     def restart(self):
         self.score = 0
-        for ix, iy, child in self.iterate():
-            child.destroy()
-        self.grid = [[None for x in range(self.dim)] for x in range(self.dim)]
-        self.reposition()
+        self.resize(self.dim)
         Clock.schedule_once(self.spawn_number, .1)
         Clock.schedule_once(self.spawn_number, .1)
-        self.ids.end.opacity = 0
 
     def resize(self, d):
         for ix, iy, child in self.iterate():
@@ -387,6 +393,7 @@ class Game2048(Widget):
         self.dim = d
         self.grid = [[None for x in range(self.dim)] for x in range(self.dim)]
         self.reposition()
+        self.ids.end.opacity = 0
         self.last_num = None
 
     def undo(self):
