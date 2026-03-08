@@ -1,10 +1,10 @@
 [app]
+# Android specific
+android.ndk = 28c
 android.archs = arm64-v8a, armeabi-v7a
-# https://github.com/android/ndk/wiki/Unsupported-Downloads
-# cd ~/.buildozer/android/platform
-# wget https://dl.google.com/android/repository/android-ndk-r23c-linux.zip
-# unzip android-ndk-r23c-linux.zip
-android.ndk = 23c
+# Python for android (p4a) specific
+p4a.branch = develop
+p4a.commit = 96e5a06
 
 # (str) Title of your application
 title = 2048 with Kivy
@@ -47,7 +47,7 @@ presplash.filename = %(source.dir)s/data/presplash.png
 icon.filename = %(source.dir)s/data/icon.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
-orientation = all
+orientation = landscape
 
 # (bool) Indicate if the application should be fullscreen or not
 fullscreen = 0
